@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+
+        <div class="nav-bar"></div>
+
+        <div id="app">
+            
+            <product-label :message="inventory"></product-label>
+            <product-input :value="inventory" @on-update-input="updateProductLabel"></product-input>
+
+
+
+            <div class="product">
+                <div class="product-image">
+                    <img :src="image" >
+                </div>
+
+                <div class="product-info">
+                    <h1>{{ title }}</h1>
+                    <p v-show="inventory < 100">{{ inventory }}</p>
+                    <p v-if="inventory > 10">In Stock</p>
+                    <p v-else-if="inventory <= 10 && inventory > 0">Almost out</p>
+                    <p v-else>Out Stock</p>
+
+                    <h2>Options:</h2>
+                    
+                    <ul>
+                        <li 
+                            v-for="detail in details" 
+                            :key="detail.id"
+                            class="color-box"
+                            :style="{ backgroundColor: detail.color }">
+                            <p @mouseover="setProductImage(detail.img)">
+                                {{ detail.color }}:
+                                {{ detail.description }} 
+                            </p>
+                        </li>
+                    </ul>
+
+                    <button 
+                        @click="addToCart"
+                        :disabled="!instock"
+                        :class="{ disabledButton: !instock}"
+                    >
+                        Add to cart
+                    </button>
+
+                    <div class="cart">
+                        <p>Cart({{ cart }})</p>
+                    </div>
+
+                </div>
+
+                
+                
+            </div>
+        </div>
+
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>
